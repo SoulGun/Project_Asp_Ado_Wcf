@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="semlexModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Lignes">
+          <Key>
+            <PropertyRef Name="idligne" />
+          </Key>
+          <Property Name="idligne" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idText" Type="int" Nullable="false" />
+          <Property Name="lignes" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'semlex.dbo.Nom' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Nom">
+          <Key>
+            <PropertyRef Name="IdText" />
+            <PropertyRef Name="nom" />
+          </Key>
+          <Property Name="IdText" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Nom_Lignes">
+          <End Role="Lignes" Type="Self.Lignes" Multiplicity="1" />
+          <End Role="Nom" Type="Self.Nom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lignes">
+              <PropertyRef Name="idligne" />
+            </Principal>
+            <Dependent Role="Nom">
+              <PropertyRef Name="IdText" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="semlexModelStoreContainer">
+          <EntitySet Name="Lignes" EntityType="Self.Lignes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nom" EntityType="Self.Nom" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[Nom].[IdText] AS [IdText], 
+[Nom].[nom] AS [nom]
+FROM [dbo].[Nom] AS [Nom]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Nom_Lignes" Association="Self.FK_Nom_Lignes">
+            <End Role="Lignes" EntitySet="Lignes" />
+            <End Role="Nom" EntitySet="Nom" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="semlexModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Ligne">
+          <Key>
+            <PropertyRef Name="idligne" />
+          </Key>
+          <Property Name="idligne" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idText" Type="Int32" Nullable="false" />
+          <Property Name="lignes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Noms" Relationship="Self.FK_Nom_Lignes" FromRole="Lignes" ToRole="Nom" />
+        </EntityType>
+        <EntityType Name="Nom">
+          <Key>
+            <PropertyRef Name="IdText" />
+            <PropertyRef Name="nom1" />
+          </Key>
+          <Property Name="IdText" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Ligne" Relationship="Self.FK_Nom_Lignes" FromRole="Nom" ToRole="Lignes" />
+        </EntityType>
+        <Association Name="FK_Nom_Lignes">
+          <End Role="Lignes" Type="Self.Ligne" Multiplicity="1" />
+          <End Role="Nom" Type="Self.Nom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lignes">
+              <PropertyRef Name="idligne" />
+            </Principal>
+            <Dependent Role="Nom">
+              <PropertyRef Name="IdText" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="semlexEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Lignes" EntityType="Self.Ligne" />
+          <EntitySet Name="Noms" EntityType="Self.Nom" />
+          <AssociationSet Name="FK_Nom_Lignes" Association="Self.FK_Nom_Lignes">
+            <End Role="Lignes" EntitySet="Lignes" />
+            <End Role="Nom" EntitySet="Noms" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="semlexModelStoreContainer" CdmEntityContainer="semlexEntities">
+          <EntitySetMapping Name="Lignes">
+            <EntityTypeMapping TypeName="semlexModel.Ligne">
+              <MappingFragment StoreEntitySet="Lignes">
+                <ScalarProperty Name="idligne" ColumnName="idligne" />
+                <ScalarProperty Name="idText" ColumnName="idText" />
+                <ScalarProperty Name="lignes" ColumnName="lignes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Noms">
+            <EntityTypeMapping TypeName="semlexModel.Nom">
+              <MappingFragment StoreEntitySet="Nom">
+                <ScalarProperty Name="IdText" ColumnName="IdText" />
+                <ScalarProperty Name="nom1" ColumnName="nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

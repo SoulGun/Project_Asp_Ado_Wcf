@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                
+            </hgroup>
+            <p>
+                <ul>
+                    
+                </ul>
+                <table style="width:100%;">
+                    <tr>
+                        <td>
+                            @using (Html.BeginForm("Index", "Home"))
+                            {
+
+                                
+                                @Html.TextBox("text1")
+                                @Html.DropDownList("methode",new List<SelectListItem>{
+                                new SelectListItem{Text="inverse",Value="1"},                                
+                                new SelectListItem{Text="inverse2By2",Value="2"}, 
+                                new SelectListItem{Text="sans voyelles",Value="3"}, 
+                           },"select your operation")
+
+                                <input type="submit" value="transform" />
+                               
+                            }
+                        </td>
+
+                        <td>
+                            <textarea id="TextArea1" rows="2" cols="20">
+                                @ViewBag.Message
+                            </textarea>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </p>
+        </div>
+    </section>
+}
+<h3>We suggest the following:</h3>
+<ol class="round">
+    <li class="one">
+        <h5>operation</h5>
+        inverse2by2 inverse les lettres 2 par 2
+        
+        
+    </li>
+    <li class="two">
+        <h5>operation</h5>
+        
+        inverse inverse totalement
+        tandis que la troisième methode enleve les voyelles
+
+    </li>
+    <li class="three">
+        <h5>operation</h5>
+        
+         la troisième methode enleve les voyelles
+
+    </li>
+    <li class="one">
+        <h5>operation</h5>
+        si l'input de l'utilisateur a plus de 10 caractère
+        5 devant sont enlevés et 5 derrières
+        pou être rajouté après le traitement de son choix
+
+    </li>
+
+    
+</ol>
